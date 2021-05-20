@@ -9,4 +9,6 @@ function preferences = user_preferences(preferences,session)
 % preferences.waveform.showWaveforms = true;
 disp('User preferences loaded successfully')
 
+
+
 end

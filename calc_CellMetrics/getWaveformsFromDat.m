@@ -110,27 +110,39 @@ g = fittype('a*exp(-x/b)+c','dependent',{'y'},'independent',{'x'},'coefficients'
 
 for i = 1:length(unitsToProcess)
     ii = unitsToProcess(i);
+%     if ii==25
+%         continue
+%     end
     t1 = toc(timerVal);
     if isfield(spikes,'ts')
         spkTmp = spikes.ts{ii}(find(spikes.ts{ii}./sr > wfWin_sec/1.8 & spikes.ts{ii}./sr < duration-wfWin_sec/1.8));
     else
         spkTmp = round(sr * spikes.times{ii}(find(spikes.times{ii} > wfWin_sec/1.8 & spikes.times{ii} < duration-wfWin_sec/1.8)));
+        %spkTmp = round(sr * spikes.times{ii}(find(spikes.times{ii} > wfWin_sec/1.8 )));
+
     end
+    
     
     if length(spkTmp) > nPull
         spkTmp = spkTmp(randperm(length(spkTmp)));
         spkTmp = sort(spkTmp(1:nPull));
     end
     spkTmp = spkTmp(:);
-%     % Determines the maximum waveform channel from 100 waveforms across all good channels
-%     startIndicies1 = (spkTmp(1:min(100,length(spkTmp))) - wfWin)*nChannels+1;
-%     stopIndicies1 =  (spkTmp(1:min(100,length(spkTmp))) + wfWin)*nChannels;
-%     X1 = cumsum(accumarray(cumsum([1;stopIndicies1(:)-startIndicies1(:)+1]),[startIndicies1(:);0]-[0;stopIndicies1(:)]-1)+1);
-%     wf = LSB * mean(reshape(double(rawData.Data(X1(1:end-1))),nChannels,(wfWin*2),[]),3);
-%     wfF2 = zeros((wfWin * 2),nGoodChannels);
-%     for jj = 1 : nGoodChannels
-%         wfF2(:,jj) = filtfilt(b1, a1, wf(goodChannels(jj),:));
-%     end
+    
+    %crashes for some reason when this variable is empty, skip to avoid
+    if isempty(spkTmp)
+       continue; 
+    end
+    
+    % Determines the maximum waveform channel from 100 waveforms across all good channels
+    startIndicies1 = (spkTmp(1:min(100,length(spkTmp))) - wfWin)*nChannels+1;
+    stopIndicies1 =  (spkTmp(1:min(100,length(spkTmp))) + wfWin)*nChannels;
+    X1 = cumsum(accumarray(cumsum([1;stopIndicies1(:)-startIndicies1(:)+1]),[startIndicies1(:);0]-[0;stopIndicies1(:)]-1)+1);
+    wf = LSB * mean(reshape(double(rawData.Data(X1(1:end-1))),nChannels,(wfWin*2),[]),3);
+    wfF2 = zeros((wfWin * 2),nGoodChannels);
+    for jj = 1 : nGoodChannels
+        wfF2(:,jj) = filtfilt(b1, a1, wf(goodChannels(jj),:));
+    end
     
     % Pulls the waveforms from all channels from the dat
     startIndicies2 = (spkTmp - wfWin)*nChannels+1;

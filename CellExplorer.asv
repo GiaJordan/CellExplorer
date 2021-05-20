@@ -10284,8 +10284,6 @@ end
             filtWaveform = [];
             statusUpdate('Initializing filtered waveforms')
             for i = 1:length(cell_metrics.waveforms.filt)
-                 %using this dataset+code yields some units that are empty,
-                 %this try+catch skips those
                 try
                 if isempty(cell_metrics.waveforms.filt{i}) || any(isnan(cell_metrics.waveforms.filt{i}))
                     filtWaveform(:,i) = zeros(size(cell_metrics.waveforms.time_zscored));

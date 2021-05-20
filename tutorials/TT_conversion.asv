@@ -1,0 +1,57 @@
+fileList = dir(fullfile('TT*.t'));
+
+tetName='';
+ts=[];
+
+for i=1:length(fileList)
+    
+    if ~strcmp(fileList(i).name(1:5),tetName)
+        
+        
+        
+        currTet=fileList(i).name;
+        tetName=currTet(1:5)
+    
+    end
+    
+    currTet=fileList(i).name
+    disp(currTet)
+    f=fopen(currTet);
+    
+    value=fread(f,'uint16');
+    
+    disp(value')
+%     if ~isempty(value)
+%         %ts=horzcat(ts,value);
+%         ts=vertcat(ts,value');
+%     end
+    value=[];
+    %ts=fread(f,'uint16');
+    %disp(fread(f,'uint16')')
+    %disp(ts)
+    fclose(f);
+    
+    
+        
+%     try    
+%         if ~strcmp(fileList(i+1).name(1:5),tetName)
+% 
+% 
+%             %ts=sort(ts);
+%             save(tetName,'ts');
+% 
+% 
+% 
+%             ts=[];
+% 
+%         end
+%     catch
+%         if i==length(fileList)
+%             
+%             ts=sort(ts);
+%             save(tetName,'ts');
+%         end
+%     
+%     end
+    
+end

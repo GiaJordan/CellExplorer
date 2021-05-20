@@ -203,9 +203,12 @@ if ~exist('relativePath','var')
         relativePath = ''; % Relative path to the clustered data (here assumed to be the basepath)
     end
 end
-rezFile = dir(fullfile(basepath,relativePath,'rez*.mat'));
-rezFile = rezFile.name;
-session = loadKiloSortMetadata(session,rezFile);
+
+%%for some reason it crashes with schimanski dataset when these aren't
+%%commented out, res.mat doesn't seem to exist in this set
+% rezFile = dir(fullfile(basepath,relativePath,'rez*.mat'));
+% rezFile = rezFile.name;
+% session = loadKiloSortMetadata(session,rezFile);
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % sessionInfo and xml (including skipped and dead channels)

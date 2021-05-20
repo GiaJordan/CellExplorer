@@ -531,7 +531,7 @@ if parameters.forceReload
                         spikes.maxWaveformCh1(UID) = session.extracellular.electrodeGroups.channels{iTetrode}(index1); % index 1;
                         spikes.filtWaveform{UID} = spikes.filtWaveform_all{UID}(index1,:);
                         
-                        %have to load peaks from appropriate .fd file
+                        
                         f=fopen([fileList{iTetrode}(1:end-4),'_peak.fd']);
                         
                         %Check type for importing
@@ -549,8 +549,6 @@ if parameters.forceReload
                         
                         
                         % Incorporating extra fields from MClust from the channel with largest amplitude
-                        
-                        %same thing with energy .fd file
                         f=fopen([fileList{iTetrode}(1:end-4),'_energy.fd']);
                         
                         %Check type for importing

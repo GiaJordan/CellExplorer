@@ -505,7 +505,14 @@ if any(contains(parameters.metrics,{'waveform_metrics','all'})) && ~any(contains
                 peakVoltage = range(cell_metrics.waveforms.filt_all{j}');
                 [~,idx] = sort(range(cell_metrics.waveforms.filt_all{j}'),'descend');
                 
+                %using this dataset+code yields some units that dont have
+                %16 values in the vector, avoids crashing
+                try
                 bestChannels = cell_metrics.waveforms.channels_all{j}(idx(1:16));
+                catch
+                %bestChannels = cell_metrics.waveforms.channels_all{j};   
+                continue
+                end
                 beta0 = [cell_metrics.general.chanCoords.x(bestChannels(1)),cell_metrics.general.chanCoords.y(bestChannels(1))]; % initial position
                 trilat_pos = trilat([cell_metrics.general.chanCoords.x(bestChannels),cell_metrics.general.chanCoords.y(bestChannels)],peakVoltage(idx(1:16)),beta0,0); % ,1,cell_metrics.waveforms.filt_all{j}(bestChannels,:)
                 cell_metrics.trilat_x(j) = trilat_pos(1);
