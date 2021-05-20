@@ -3,7 +3,9 @@ function success = saveStruct(data,datatype,varargin)
 % TODO: Perform validation of the content before saving
 %
 % Example calls:
-% saveStruct(cell_metrics,'cellinfo','session',session);
+% saveStruct(cell_metrics,'cellinfo','session',session); % Saving cell metrics
+% saveStruct(ripples,'events','session',session); % Saving ripples
+% saveStruct(session); Saving session metadata struct
 
 % By Peter Petersen
 % petersen.peter@gmail.com
@@ -14,13 +16,14 @@ addParameter(p,'basepath',pwd,@isstr);
 addParameter(p,'basename','',@isstr);
 addParameter(p,'session',{},@isstruct);
 addParameter(p,'dataName','',@isstr);
+addParameter(p,'commandDisp',true,@islogical);
 parse(p,varargin{:});
 
 basepath = p.Results.basepath;
 basename = p.Results.basename;
 session = p.Results.session;
 dataName = p.Results.dataName;
-
+commandDisp = p.Results.commandDisp;
 success = false;
 
 if strcmp(inputname(1),'session')
@@ -32,8 +35,7 @@ if ~isempty(session)
     basename = session.general.name;
     basepath = session.general.basePath;
 elseif isempty(basename)
-    s = regexp(basepath, filesep, 'split');
-    basename = s{end};
+    basename = basenameFromBasepath(basepath);
 end
 
 % Validation
@@ -52,15 +54,19 @@ if any(strcmp(datatype,supportedDataTypes))
         otherwise
             filename = fullfile(basepath,[basename,'.',dataName,'.',datatype,'.mat']);
     end
-    % Saving struct. 
+    % Saving struct
     % Checks byte size of struct to determine optimal mat format
     structSize = whos('S');
     if structSize.bytes/1000000000 > 2
         save(filename, '-struct', 'S','-v7.3','-nocompression')
-        disp(['Saved variable ''',dataName, ''' to ', filename,' (v7.3)'])
+        if commandDisp
+            disp(['Saved variable ''', dataName, ''' to ', filename,' (v7.3)'])
+        end
     else
         save(filename, '-struct', 'S')
-        disp(['Saved variable ''',dataName, ''' to ', filename])
+        if commandDisp
+            disp(['Saved variable ''', dataName, ''' to ', filename])
+        end
     end
     success = true;
 else

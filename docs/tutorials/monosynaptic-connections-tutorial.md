@@ -8,9 +8,6 @@ nav_order: 5
 {: .no_toc}
 This tutorial will guide you through the manual curation process of the monosynaptic connections. Monosynaptic connections, both excitatory and inhibitory connections, are determined in the pipeline. You can visualize the connections and perform manual curation in a graphical interface. 
 
-## monosynaptic algorithm
-The algorithm is built upon the ...
-
 ### Implementation
 The Processing module will automatically perform these action, but if you want to detect monosynaptic connections in a dataset independently use below script
 ```m
@@ -29,7 +26,7 @@ __Acceptance criteria__
 
 __Rejection criteria__
 1. CCG shows a maintained refractory period. The units should have been merged in the spike sorting process.
-2. If the CCG peak coincide with ACG peak (typically slower than 2ms), it is likely that the units should have been merged in the spike sorting process, or that they are contaminated with a third unit. This often occurs together with a maintained refractory period, but this will not always be the case for contaminated units and is often due to spike bursts.
+2. If the CCG peak coincide with ACG peak (typically slower than 2ms), it is likely that the units should have been merged in the spike sorting process, or that the considered cell pair is contaminated with a third unit. This often occurs together with a maintained refractory period, but this will not always be the case for contaminated units and is often due to spike bursts.
 3. A broad centrally aligned CCG peak indicates common drive and the connection should potentially be rejected. Common drive can also be temporally shifted if the cells are located far from each other. This is often seen when comparing two cells located at different shanks (hundreds of µm apart). Common drive can easily occur together with monosynaptic connections and the two can be difficult to differentiate.
 
 ## Using the graphical interface for curating monosynaptic connections

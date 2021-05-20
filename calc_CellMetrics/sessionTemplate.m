@@ -14,6 +14,7 @@ function session = sessionTemplate(input1,varargin)
 
 p = inputParser;
 addRequired(p,'input1',@(X) (ischar(X) && exist(X,'dir')) || isstruct(X)); % specify a valid path or an existing session struct
+addParameter(p,'basename',[],@isstr);
 addParameter(p,'importSkippedChannels',true,@islogical); % Import skipped channels from the xml as bad channels
 addParameter(p,'importSyncedChannels',true,@islogical); % Import channel not synchronized between anatomical and spike groups as bad channels
 addParameter(p,'noPrompts',true,@islogical); % Show the session gui if requested
@@ -21,6 +22,7 @@ addParameter(p,'showGUI',false,@islogical); % Show the session gui if requested
 
 % Parsing inputs
 parse(p,input1,varargin{:})
+basename = p.Results.basename;
 importSkippedChannels = p.Results.importSkippedChannels;
 importSyncedChannels = p.Results.importSyncedChannels;
 noPrompts = p.Results.noPrompts;
@@ -41,7 +43,10 @@ elseif isstruct(input1)
 end
 
 % Loading existing basename.session.mat file if exist
-[~,basename,~] = fileparts(basepath);
+if isempty(basename)
+    basename = basenameFromBasepath(basepath);
+%     [~,basename,~] = fileparts(basepath);
+end
 if ~exist('session','var') && exist(fullfile(basepath,[basename,'.session.mat']),'file')
     disp('Loading existing basename.session.mat file')
     session = loadSession(basepath,basename);
@@ -59,7 +64,7 @@ pathPieces = regexp(basepath, filesep, 'split'); % Assumes file structure: anima
 % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 % From the provided path, the session name, clustering path will be implied
 session.general.basePath =  basepath; % Full path
-session.general.name = pathPieces{end}; % Session name / basename
+session.general.name = basename; % Session name / basename
 session.general.version = 5; % Metadata version
 session.general.sessionType = 'Chronic'; % Type of recording: Chronic, Acute
 
@@ -81,7 +86,8 @@ end
 % This section will set some default extracellular parameters. You can comment this out if you are importing these parameters another way. 
 % Extracellular parameters from a Neuroscope xml and buzcode sessionInfo file will be imported as well
 if ~isfield(session,'extracellular') || (isfield(session,'extracellular') && (~isfield(session.extracellular,'sr')) || isempty(session.extracellular.sr))
-    session.extracellular.sr = 20000;           % Sampling rate
+    session.extracellular.sr = 20000;           % Sampling rate of raw data
+    session.extracellular.srLfp = 1250;         % Sampling rate of LFP data
     session.extracellular.nChannels = 64;       % number of channels
     session.extracellular.fileName = '';        % (optional) file name of raw data if different from basename.dat
     session.extracellular.electrodeGroups.channels = {[1:session.extracellular.nChannels]}; %creating a default list of channels. Please change according to your own layout. 
@@ -90,7 +96,7 @@ if ~isfield(session,'extracellular') || (isfield(session,'extracellular') && (~i
     session.extracellular.nSpikeGroups = session.extracellular.nElectrodeGroups;
 end
 if ~isfield(session,'extracellular') || (isfield(session,'extracellular') && (~isfield(session.extracellular,'leastSignificantBit')) || isempty(session.extracellular.leastSignificantBit))
-    session.extracellular.leastSignificantBit = 0.195; % (in µV) Intan = 0.195, Amplipex = 0.3815
+    session.extracellular.leastSignificantBit = 0.195; % (in ï¿½V) Intan = 0.195, Amplipex = 0.3815
 end
 if ~isfield(session,'extracellular') || (isfield(session,'extracellular') && (~isfield(session.extracellular,'probeDepths')) || isempty(session.extracellular.probeDepths))
     session.extracellular.probeDepths = 0;
@@ -187,7 +193,7 @@ end
 % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 if ~isfield(session,'analysisTags') || (isfield(session,'analysisTags') && (~isfield(session.analysisTags,'probesLayout')) || isempty(session.analysisTags.probesLayout)) 
     session.analysisTags.probesLayout = 'poly2'; % Probe layout: linear,staggered,poly2,edge,poly3,poly5
-    session.analysisTags.probesVerticalSpacing = 10; % (µm) Vertical spacing between sites.
+    session.analysisTags.probesVerticalSpacing = 10; % (ï¿½m) Vertical spacing between sites.
 end
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % %

@@ -491,12 +491,12 @@ if any(contains(parameters.metrics,{'waveform_metrics','all'})) && ~any(contains
         if parameters.debugMode
             fig100 = figure;
             handle_subfig1 = subplot(2,1,1); hold on
-            title(handle_subfig1,'Spike amplitude (all)'), xlabel(handle_subfig1,'Distance (µm)'), ylabel(handle_subfig1,'µV')
+            title(handle_subfig1,'Spike amplitude (all)'), xlabel(handle_subfig1,'Distance (ï¿½m)'), ylabel(handle_subfig1,'ï¿½V')
             handle_subfig2 = subplot(2,2,3); hold on
-            ylabel(handle_subfig2,'Length constant (µm)'), xlabel(handle_subfig2,'Peak voltage (µV)')
+            ylabel(handle_subfig2,'Length constant (ï¿½m)'), xlabel(handle_subfig2,'Peak voltage (ï¿½V)')
             handle_subfig3 = subplot(2,2,4); hold off
             plot(handle_subfig3,cell_metrics.general.chanCoords.x,cell_metrics.general.chanCoords.y,'.k'), hold on
-            xlabel(handle_subfig3,'x position (µm)'), ylabel(handle_subfig3,'y position (µm)')
+            xlabel(handle_subfig3,'x position (ï¿½m)'), ylabel(handle_subfig3,'y position (ï¿½m)')
             drawnow
         end
         for j = 1:cell_metrics.general.cellCount
@@ -556,15 +556,15 @@ if any(contains(parameters.metrics,{'waveform_metrics','all'})) && ~any(contains
         for j = 1:cell_metrics.general.cellCount
             plot(expential_x{j},expential_y{j})
         end
-        title('Spike amplitude (all)'), xlabel('Distance (µm)'), ylabel('µV')
+        title('Spike amplitude (all)'), xlabel('Distance (ï¿½m)'), ylabel('ï¿½V')
         subplot(2,2,2), hold off,
-        histogram(cell_metrics.peakVoltage_expFit,20), xlabel('Length constant (µm)')
+        histogram(cell_metrics.peakVoltage_expFit,20), xlabel('Length constant (ï¿½m)')
         subplot(2,2,3), hold on
         plot(cell_metrics.peakVoltage,cell_metrics.peakVoltage_expFit,'ok')
-        ylabel('Length constant (µm)'), xlabel('Peak voltage (µV)')
+        ylabel('Length constant (ï¿½m)'), xlabel('Peak voltage (ï¿½V)')
         subplot(2,2,4), hold on
         plot(cell_metrics.general.chanCoords.x,cell_metrics.general.chanCoords.y,'.k'), hold on
-        plot(cell_metrics.trilat_x,cell_metrics.trilat_y,'ob'), xlabel('x position (µm)'), ylabel('y position (µm)')
+        plot(cell_metrics.trilat_x,cell_metrics.trilat_y,'ob'), xlabel('x position (ï¿½m)'), ylabel('y position (ï¿½m)')
     end
     
     % Common coordinate framework
@@ -601,7 +601,7 @@ if any(contains(parameters.metrics,{'waveform_metrics','all'})) && ~any(contains
         figure
         plot3(cell_metrics.general.ccf.x,cell_metrics.general.ccf.z,cell_metrics.general.ccf.y,'.k'), hold on
         plot3(cell_metrics.ccf_x,cell_metrics.ccf_z,cell_metrics.ccf_y,'ob'),
-        xlabel('x ( Anterior-Posterior; µm)'), zlabel('y (Superior-Inferior; µm)'), ylabel('z (Left-Right; µm)'), axis equal, set(gca, 'ZDir','reverse')
+        xlabel('x ( Anterior-Posterior; ï¿½m)'), zlabel('y (Superior-Inferior; ï¿½m)'), ylabel('z (Left-Right; ï¿½m)'), axis equal, set(gca, 'ZDir','reverse')
         if exist('plotBrainGrid.m','file')
             plotAllenBrainGrid, hold on
         end
@@ -1566,7 +1566,7 @@ if parameters.summaryFigures
             plot((deepSuperficialfromRipple.ripple_amplitude{jj}*50)+deepSuperficialfromRipple.ripple_time_axis(1)-50,-[0:size(deepSuperficialfromRipple.ripple_amplitude{jj},2)-1]*ripple_scaling,'m','linewidth',1)
             
             for jjj = 1:size(deepSuperficialfromRipple.ripple_average{jj},2)
-                % Plotting depth (µm)
+                % Plotting depth (ï¿½m)
                 text(deepSuperficialfromRipple.ripple_time_axis(end)+5,deepSuperficialfromRipple.ripple_average{jj}(1,jjj)-(jjj-1)*ripple_scaling,[num2str(round(deepSuperficialfromRipple.channelDistance(deepSuperficialfromRipple.ripple_channels{jj}(jjj))))])
                 % Plotting channel number (0 indexes)
                 text((deepSuperficialfromRipple.SWR_diff{jj}(jjj)*50)+deepSuperficialfromRipple.ripple_time_axis(1)-50-10,-(jjj-1)*ripple_scaling,num2str(deepSuperficialfromRipple.ripple_channels{jj}(jjj)-1),'HorizontalAlignment','Right')
@@ -1594,7 +1594,7 @@ if parameters.summaryFigures
             ht1 = text(0.02,0.03,'Superficial','Units','normalized','FontWeight','Bold','Color','r');
             ht2 = text(0.02,0.97,'Deep','Units','normalized','FontWeight','Bold','Color','b');
             if ceil(session.extracellular.nSpikeGroups/2) == jj || session.extracellular.nSpikeGroups == jj
-                ht3 = text(1.05,0.4,'Depth (µm)','Units','normalized','Color','k'); set(ht3,'Rotation',90)
+                ht3 = text(1.05,0.4,'Depth (ï¿½m)','Units','normalized','Color','k'); set(ht3,'Rotation',90)
             end
         end
         saveas(fig,fullfile(basepath,[basename,'.deepSuperficialfromRipple.png']))

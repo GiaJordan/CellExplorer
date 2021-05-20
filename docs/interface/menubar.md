@@ -17,7 +17,7 @@ Here is a detailed description of each of the menu elements of CellExplorer.
 
 ### CellExplorer
 
-| Elements     | Description       | 
+| Elements | Description       | 
 |:-------------|:------------------|
 | About CellExplorer | Shows dialog with basic info about CellExplorer |
 | Edit preferences   | Opens [CellExplorer preferences](https://cellexplorer.org/interface/preferences/), which are stored in `preferences_CellExplorer.m` | 
@@ -26,7 +26,7 @@ Here is a detailed description of each of the menu elements of CellExplorer.
 
 ### File
 
-| Elements     | Description       | 
+| Elements | Description       | 
 |:-------------|:------------------|
 | Load session from file             | Opens a file dialog where you can select a cell metrics Matlab file to load | 
 | Save classification                | Saves any manual curation to the original cell metrics files. This also works in batch mode, allowing you to save any changes back to the original cell metrics calculated per session. | 
@@ -43,11 +43,9 @@ Here is a detailed description of each of the menu elements of CellExplorer.
 
 
 
-
-
 ### Navigation
 
-| Elements     | Description       | 
+| Elements | Description       | 
 |:-------------|:------------------|
 | Go to cell | Shows a dialog allowing you to provide a cell id or session to go to | 
 | Go to previously selected cell (backspace)| Go to previously selected cell | 
@@ -55,7 +53,7 @@ Here is a detailed description of each of the menu elements of CellExplorer.
 
 ### Cell Selection
 
-| Elements     | Description       | 
+| Elements | Description       | 
 |:-------------|:------------------|
 | Polygon selection of cells from plots | Draw a polygon circling the points/lines in any of the plots to perform an action on the circled cells | 
 | Perform group action | [Perform group action](https://cellexplorer.org/interface/single-cell-plot-options/#group-action-plots) on selected cells. If no cells are currently selected, a selection dialog will be shown | 
@@ -187,7 +185,7 @@ Here is a detailed description of each of the menu elements of CellExplorer.
 | View metadata for current session | Opens the session metadata window using `gui_session.m` (shown below). [Learn more about the session metadata](https://cellexplorer.org/datastructure/data-structure-and-format/#session-metadata) | 
 | Open directory of current session | Show the data directory of the current session in your file browser | 
 
-![Metadata interface](https://buzsakilab.com/wp/wp-content/uploads/2019/11/Cell-Explorer-gui_session-general.png)
+![Metadata interface](https://buzsakilab.com/wp/wp-content/uploads/2021/03/gui_session_general.png)
 
 ### BuzLabDB
 
